@@ -68,6 +68,39 @@ schema = BikaSchema.copy() + Schema((
         ),
     ),
     ReferenceField(
+        'Client',
+        required=1,
+        allowed_types=('Client',),
+        relationship='AnalysisRequestClient',
+        mode="rw",
+        read_permission=permissions.View,
+        write_permission=permissions.ModifyPortalContent,
+        acquire=True,
+        widget=ReferenceWidget(
+            label=_("Client"),
+            description=_("You must assign this request to a client"),
+            size=20,
+            render_own_label=True,
+            visible={'edit': 'visible',
+                     'view': 'visible',
+                     'add': 'hidden',
+                     'header_table': 'normal',
+                     'sample_registered': {'view': 'invisible', 'edit': 'invisible', 'add': 'hidden'},
+                     'to_be_sampled':     {'view': 'invisible', 'edit': 'invisible'},
+                     'sampled':           {'view': 'invisible', 'edit': 'invisible'},
+                     'to_be_preserved':   {'view': 'invisible', 'edit': 'invisible'},
+                     'sample_received':   {'view': 'invisible', 'edit': 'invisible'},
+                     'attachment_due':    {'view': 'invisible', 'edit': 'invisible'},
+                     'to_be_verified':    {'view': 'invisible', 'edit': 'invisible'},
+                     'verified':          {'view': 'invisible', 'edit': 'invisible'},
+                     'published':         {'view': 'invisible', 'edit': 'invisible'},
+                     'invalid':           {'view': 'invisible', 'edit': 'invisible'},
+                     },
+            base_query={'inactive_state': 'active'},
+            showOn=True,
+        ),
+    ),
+    ReferenceField(
         'Contact',
         required=1,
         default_method='getContactUIDForUser',
@@ -78,6 +111,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=EditARContact,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Contact"),
             render_own_label=True,
@@ -214,38 +248,6 @@ schema = BikaSchema.copy() + Schema((
         ),
     ),
     ReferenceField(
-        'Client',
-        required=1,
-        allowed_types=('Client',),
-        relationship='AnalysisRequestClient',
-        mode="rw",
-        read_permission=permissions.View,
-        write_permission=permissions.ModifyPortalContent,
-        widget=ReferenceWidget(
-            label=_("Client"),
-            description=_("You must assign this request to a client"),
-            size=20,
-            render_own_label=True,
-            visible={'edit': 'visible',
-                     'view': 'visible',
-                     'add': 'hidden',
-                     'header_table': 'normal',
-                     'sample_registered': {'view': 'invisible', 'edit': 'invisible', 'add': 'hidden'},
-                     'to_be_sampled':     {'view': 'invisible', 'edit': 'invisible'},
-                     'sampled':           {'view': 'invisible', 'edit': 'invisible'},
-                     'to_be_preserved':   {'view': 'invisible', 'edit': 'invisible'},
-                     'sample_received':   {'view': 'invisible', 'edit': 'invisible'},
-                     'attachment_due':    {'view': 'invisible', 'edit': 'invisible'},
-                     'to_be_verified':    {'view': 'invisible', 'edit': 'invisible'},
-                     'verified':          {'view': 'invisible', 'edit': 'invisible'},
-                     'published':         {'view': 'invisible', 'edit': 'invisible'},
-                     'invalid':           {'view': 'invisible', 'edit': 'invisible'},
-                     },
-            base_query={'inactive_state': 'active'},
-            showOn=True,
-        ),
-    ),
-    ReferenceField(
         'Sample',
         vocabulary_display_path_bound=sys.maxsize,
         allowed_types=('Sample',),
@@ -363,6 +365,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Template"),
             size=20,
@@ -397,6 +400,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Analysis Profile"),
             size=20,
@@ -484,6 +488,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget = DateTimeWidget(
             label=_("Sampling Date"),
             size=20,
@@ -515,6 +520,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Sample Type"),
             description=_("Create a new sample of this type"),
@@ -541,7 +547,6 @@ schema = BikaSchema.copy() + Schema((
             showOn=True,
         ),
     ),
-    
     ReferenceField(
         'SampleMatrix',
         required=False,
@@ -550,6 +555,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Sample Matrix"),
             size=20,
@@ -575,7 +581,6 @@ schema = BikaSchema.copy() + Schema((
             showOn=True,
         ),
     ),
-
     ReferenceField(
         'Specification',
         required=0,
@@ -584,6 +589,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Analysis Specification"),
             description=_("Choose default AR specification values"),
@@ -661,6 +667,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Sample Point"),
             description=_("Location where sample was taken"),
@@ -728,6 +735,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=StringWidget(
             label=_('Client Order Number'),
             size=20,
@@ -757,6 +765,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=StringWidget(
             label=_('Client Reference'),
             size=20,
@@ -886,6 +895,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_('Default Container'),
             description=_('Default container for new sample partitions'),
@@ -1274,6 +1284,7 @@ schema = BikaSchema.copy() + Schema((
         mode="rw",
         read_permission=permissions.View,
         write_permission=permissions.ModifyPortalContent,
+        acquire=True,
         widget=ReferenceWidget(
             label=_("Priority"),
             size=10,
@@ -1309,6 +1320,20 @@ schema = BikaSchema.copy() + Schema((
             sord='asc',
             showOn=True,
         ),
+    ),
+    StringField('Sampler',
+        mode="rw",
+        read_permission=permissions.View,
+        write_permission=permissions.ModifyPortalContent,
+        acquire=True,
+        widget=StringWidget(visible=False)
+    ),
+    DateTimeField('DateSampled',
+        mode="rw",
+        read_permission=permissions.View,
+        write_permission=permissions.ModifyPortalContent,
+        acquire=True,
+        widget=StringWidget(visible=False)
     ),
 )
 )
@@ -1355,8 +1380,7 @@ class AnalysisRequest(BaseFolder):
     def getClient(self):
         if self.aq_parent.portal_type == 'Client':
             return self.aq_parent
-        if self.aq_parent.portal_type == 'Batch':
-            return self.aq_parent.getClient()
+        return self.Schema()['Client'].get(self)
 
     def getClientPath(self):
         return "/".join(self.aq_parent.getPhysicalPath())
